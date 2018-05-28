@@ -1,0 +1,25 @@
+{
+  "name": "zbar.wasm",
+  "version": "0.0.0",
+  "description": "A wasm build for C/C++ Zbar bar code scan library.",
+  "main": "index.js",
+  "scripts": {
+    "build": "make zbar.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samsam2310/zbar.wasm.git"
+  },
+  "keywords": [
+    "zbar",
+    "qrcode",
+    "scanner"
+  ],
+  "author": "samsam2310@gmail.com",
+  "license": "LGPL-2.1",
+  "bugs": {
+    "url": "https://github.com/samsam2310/zbar.wasm/issues"
+  },
+  "homepage": "https://github.com/samsam2310/zbar.wasm#readme"
+}
