@@ -1,9 +1,9 @@
-zbar-*/
-src/
-Makefile
-test.png
 *.tar.gz
-data/.gitignore
-.gitignore
-.travis.yml
+.*
 .travis/
+data/.gitignore
+src/
+test/
+zbar-*/
+Makefile
+webpack.config.js
