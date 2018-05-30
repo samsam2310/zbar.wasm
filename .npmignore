@@ -1,0 +1,7 @@
+zbar-*/
+src/
+Makefile
+test.png
+*.tar.gz
+data/.gitignore
+.gitignore

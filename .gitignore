@@ -1,5 +1,6 @@
 # Build
 zbar-*/
+package-lock.json
 
 # Logs
 logs

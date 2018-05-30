@@ -1,5 +1,7 @@
 ZBAR_NAME = zbar-0.10
 
+all: data/zbar.js
+
 data/zbar.js: .emmake src/api.cpp
 	em++ -Os -s WASM=1 -Wc++11-extensions -o data/zbar.js \
 		src/api.cpp -I ${ZBAR_NAME}/include/ \
