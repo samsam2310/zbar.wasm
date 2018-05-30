@@ -1,0 +1,36 @@
+notifications:
+  email: false
+
+language: node_js
+node_js:
+  - node
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
+
+script:
+  - docker exec -it make
+
+before_deploy:
+  - if [ "$TRAVIS_TAG" == "" ]; then .travis/staging-version.sh; fi
+
+deploy:
+  - provider: npm
+    email: $NPM_EMAIL
+    api_key: $NPM_KEY
+    on:
+      branch: master
+    tag: next
+    skip_cleanup: true
+
+  - provider: npm
+    email: $NPM_EMAIL
+    api_key: $NPM_KEY
+    on:
+      tags: true
+    skip_cleanup: true

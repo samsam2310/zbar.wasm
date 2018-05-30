@@ -5,3 +5,5 @@ test.png
 *.tar.gz
 data/.gitignore
 .gitignore
+.travis.yml
+.travis/
