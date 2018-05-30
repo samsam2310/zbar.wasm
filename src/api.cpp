@@ -1,9 +1,12 @@
-#include <emscripten.h>
-#include <zbar.h>
 #include <iostream>
+
+#include <emscripten.h>
+#include <string.h>
+#include <zbar.h>
 
 zbar::ImageScanner scanner;
 zbar::Image* image = NULL;
+zbar::Image::SymbolIterator symb_p;
 
 extern "C" {
 
@@ -24,29 +27,45 @@ int scanQrcode(uint8_t* imgBuf, int width, int height) {
         for (int j = 0; j < height; ++j) {
             uint8_t* pixels = imgBuf + i * height * 4 + j * 4;
             int sum = (int)pixels[0] + (int)pixels[1] + (int)pixels[2];
-            grayImgBuf[i * height + j] = sum / 3;
+            grayImgBuf[i * height + j] = (uint8_t)(sum / 3);
         }
     }
+    free(imgBuf);
     if (image) {
         delete image;
     }
     image = new zbar::Image(width, height, "Y800", grayImgBuf, width * height);
-    return scanner.scan(*image);
+    int scan_res = scanner.scan(*image);
+    free(grayImgBuf);
+    symb_p = image->symbol_begin();
+    return scan_res;
 }
 
 EMSCRIPTEN_KEEPALIVE
-void getScanResults() {
-    for (auto symb_p = image->symbol_begin(); symb_p != image->symbol_end();
-         ++symb_p) {
-        // do something useful with results
-        std::cout << "decoded " << symb_p->get_type_name() << " symbol \""
-                  << symb_p->get_data() << '"' << std::endl;
+const char* getScanResults() {
+    if (!image) {
+        std::cerr << "Call scanQrcode first to get scan result\n";
+        return NULL;
     }
+    if (symb_p == image->symbol_end())
+        return NULL;
+    std::cout << "decoded " << symb_p->get_type_name() << " symbol \""
+              << symb_p->get_data() << '"' << std::endl;
+    std::string data = symb_p->get_data();
+    char* str = (char*)malloc(data.size() + 1);
+    strcpy(str, data.c_str());
+    // std::cout << "Dbug: ";
+    // for(const unsigned char* pc = (unsigned char*)data; *pc; ++pc) {
+    //     std::cout << (uint32_t)(*pc) << ' ';
+    // }
+    // std::cout << "\n";
+    ++ symb_p;
+    return str;
 }
 
 }
 
 int main(int argc, char** argv) {
-    scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 1);
+    scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
     std::cout << "Init scanner" << std::endl;
 }

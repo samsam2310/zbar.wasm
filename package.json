@@ -21,5 +21,18 @@
   "bugs": {
     "url": "https://github.com/samsam2310/zbar.wasm/issues"
   },
-  "homepage": "https://github.com/samsam2310/zbar.wasm#readme"
+  "homepage": "https://github.com/samsam2310/zbar.wasm#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "canvas": "^2.0.0-alpha.12",
+    "node-loader": "^0.6.0",
+    "prettier": "^1.13.2",
+    "webpack": "^4.10.2",
+    "webpack-cli": "^2.1.4"
+  }
 }
