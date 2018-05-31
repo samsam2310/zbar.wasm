@@ -1,6 +1,6 @@
 {
   "name": "zbar.wasm",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A wasm build for C/C++ Zbar bar code scan library.",
   "main": "index.js",
   "scripts": {
