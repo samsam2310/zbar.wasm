@@ -1,4 +1,4 @@
-import * as ApiModule from 'data/zbar';
+import * as ApiModule from './data/zbar';
 
 const utf8BufferToString = (buffer, addr) => {
   let end = addr;
