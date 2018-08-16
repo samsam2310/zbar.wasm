@@ -40,7 +40,11 @@ const loadImage = async src => {
 
 const main = async () => {
   // Create a sannner object
-  const scanner = await Scanner({locateFile: file => ('data/' + file)});
+  // Here use jsdelivr.net to host the wasm file,
+  //  you can use this or use the wasm file which in the npm package.
+  // If you want to use this in production, remember to add the version tag.
+  const wasm_file_path = 'https://cdn.jsdelivr.net/npm/zbar.wasm/data/';
+  const scanner = await Scanner({locateFile: file => (wasm_file_path + file)});
   const { imageData, width, height } = await loadImage('URL_TO_IMAGE');
   const scanRes = scanner.scanQrcode(imageData.data, width, height);
   if (scanRes.length > 0) {
