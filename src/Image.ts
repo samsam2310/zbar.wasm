@@ -30,21 +30,34 @@ export default class Image extends CppObject {
     if (typeof format === 'string') {
       format = this.getFourccFromString(format);
     }
-    const ptr = inst._Image_create.apply(null, width, height, format, writeBuffer(data), data.byteLength, sequence_num);
+    const ptr = inst._Image_create(width, height, format, writeBuffer(data), data.byteLength, sequence_num);
     return new this(ptr, inst);
   }
 
   destory(): void {
     this.checkAlive();
-    this.inst._Image_destory.apply(null, this.ptr);
+    this.inst._Image_destory(this.ptr);
     this.ptr = 0;
   }
 
-  convert() {
-    ;
+  convert(format: string | number, width?: number, height?: number): Image {
+    this.checkAlive();
+    if (typeof format === 'string') {
+      format = Image.getFourccFromString(format);
+    }
+    if (width === undefined && height === undefined) {
+      const res = this.inst._Image_convert(this.ptr, format);
+      return new Image(res, this.inst);
+    }
+    if (width && height) {
+      const res = this.inst._Image_convert_resize(this.ptr, format, width, height);
+      return new Image(res, this.inst);
+    }
+    throw TypeError('invalid arguments');
   }
 
-  getSymbols() {
-    ;
+  getSymbols(): any {
+    // TODO
+    return {};
   }
 }

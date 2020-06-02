@@ -1,6 +1,8 @@
+import ZBar from './ZBar';
+
 export default class CppObject {
   protected ptr: number;
-  protected inst: any;
+  protected inst: ZBar;
 
   protected constructor(ptr: number, inst: any) {
     this.ptr = ptr;
@@ -10,5 +12,9 @@ export default class CppObject {
   protected checkAlive(): void {
     if (this.ptr) return;
     throw Error('Call after destroyed');
+  }
+
+  getPointer(): number {
+    return this.ptr;
   }
 }

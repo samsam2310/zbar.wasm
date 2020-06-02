@@ -1,8 +1,9 @@
 {
   "name": "zbar.wasm",
   "version": "1.0.0",
-  "description": "A wasm build for C/C++ Zbar bar code scan library.",
+  "description": "A wasm build for C/C++ Zbar barcode scanning library.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "build": "make",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,17 +23,11 @@
     "url": "https://github.com/samsam2310/zbar.wasm/issues"
   },
   "homepage": "https://github.com/samsam2310/zbar.wasm#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/node": "^14.0.9",
+    "typescript": "^3.9.3"
+  },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "canvas": "^2.0.0-alpha.12",
-    "node-loader": "^0.6.0",
-    "prettier": "^1.13.2",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.4"
+    "prettier": "^1.13.2"
   }
 }

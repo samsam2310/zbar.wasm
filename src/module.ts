@@ -6,7 +6,7 @@ const createDefaultScanner = async () => {
   return await ImageScanner.create();
 };
 
-export const scanArrayBuffer = async (buffer, width, height, format, scanner) => {
+export const scanArrayBuffer = async (buffer: ArrayBuffer, width: number, height: number, format: number | string, scanner: ImageScanner) => {
   if (scanner === undefined) {
     scanner = await createDefaultScanner();
   }

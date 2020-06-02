@@ -1,8 +1,8 @@
-import wasmBinaryFile from './zbar.wasm';
+import wasmBinaryFile from 'raw-loader!./zbar.wasm';
 
-export const loadWasmInstance = async () => {
+export const loadWasmInstance = async (importObj: any): Promise<WebAssembly.Instance | null> => {
   try {
-    const output = await WebAssembly.instantiateStreaming(fetch(wasmBinaryFile));
+    const output = await WebAssembly.instantiateStreaming(fetch(wasmBinaryFile), importObj);
     return output.instance;
   } catch (err) {
     // The most common failure cause to be a bad MIME type for the binary,
@@ -16,6 +16,6 @@ export const loadWasmInstance = async () => {
     return null;
   }
   const binary = await res.arrayBuffer();
-  const output = await WebAssembly.instantiate(binary);
+  const output = await WebAssembly.instantiate(binary, importObj);
   return output.instance;
 };
