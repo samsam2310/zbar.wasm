@@ -15,6 +15,7 @@ export default class CppObject {
   }
 
   getPointer(): number {
+    this.checkAlive();
     return this.ptr;
   }
 }

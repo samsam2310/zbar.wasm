@@ -37,8 +37,8 @@ const loadImageData = async path => {
 };
 
 const scanImage = async (scanner, imagePath) => {
-	const img = await loadImageData(imagePath);
-    console.log(scanner.scanQrcode(img.data, img.width, img.height));
+  const img = await loadImageData(imagePath);
+  console.log(scanner.scanQrcode(img.data, img.width, img.height));
 };
 
 const main = async () => {
