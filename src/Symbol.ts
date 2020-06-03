@@ -1,29 +1,29 @@
 import { getInstance } from './instance';
 
 export enum ZBarSymbolType {
-  ZBAR_NONE        =      0,  /**< no symbol decoded */
-  ZBAR_PARTIAL     =      1,  /**< intermediate status */
-  ZBAR_EAN8        =      8,  /**< EAN-8 */
-  ZBAR_UPCE        =      9,  /**< UPC-E */
-  ZBAR_ISBN10      =     10,  /**< ISBN-10 (from EAN-13). @since 0.4 */
-  ZBAR_UPCA        =     12,  /**< UPC-A */
-  ZBAR_EAN13       =     13,  /**< EAN-13 */
-  ZBAR_ISBN13      =     14,  /**< ISBN-13 (from EAN-13). @since 0.4 */
-  ZBAR_I25         =     25,  /**< Interleaved 2 of 5. @since 0.4 */
-  ZBAR_CODE39      =     39,  /**< Code 39. @since 0.4 */
-  ZBAR_PDF417      =     57,  /**< PDF417. @since 0.6 */
-  ZBAR_QRCODE      =     64,  /**< QR Code. @since 0.10 */
-  ZBAR_CODE128     =    128,  /**< Code 128 */
-  ZBAR_SYMBOL      = 0x00ff,  /**< mask for base symbol type */
-  ZBAR_ADDON2      = 0x0200,  /**< 2-digit add-on flag */
-  ZBAR_ADDON5      = 0x0500,  /**< 5-digit add-on flag */
-  ZBAR_ADDON       = 0x0700,  /**< add-on flag mask */
-};
+  ZBAR_NONE = 0 /**< no symbol decoded */,
+  ZBAR_PARTIAL = 1 /**< intermediate status */,
+  ZBAR_EAN8 = 8 /**< EAN-8 */,
+  ZBAR_UPCE = 9 /**< UPC-E */,
+  ZBAR_ISBN10 = 10 /**< ISBN-10 (from EAN-13). @since 0.4 */,
+  ZBAR_UPCA = 12 /**< UPC-A */,
+  ZBAR_EAN13 = 13 /**< EAN-13 */,
+  ZBAR_ISBN13 = 14 /**< ISBN-13 (from EAN-13). @since 0.4 */,
+  ZBAR_I25 = 25 /**< Interleaved 2 of 5. @since 0.4 */,
+  ZBAR_CODE39 = 39 /**< Code 39. @since 0.4 */,
+  ZBAR_PDF417 = 57 /**< PDF417. @since 0.6 */,
+  ZBAR_QRCODE = 64 /**< QR Code. @since 0.10 */,
+  ZBAR_CODE128 = 128 /**< Code 128 */,
+  ZBAR_SYMBOL = 0x00ff /**< mask for base symbol type */,
+  ZBAR_ADDON2 = 0x0200 /**< 2-digit add-on flag */,
+  ZBAR_ADDON5 = 0x0500 /**< 5-digit add-on flag */,
+  ZBAR_ADDON = 0x0700 /**< add-on flag mask */
+}
 
 export interface Point {
   x: number;
   y: number;
-};
+}
 
 class TypePointer {
   protected ptr: number;
@@ -127,7 +127,7 @@ export class Symbol {
   }
 
   decode(encoding?: string) {
-    const decoder = new TextDecoder(encoding)
+    const decoder = new TextDecoder(encoding);
     return decoder.decode(this.data);
   }
-};
+}

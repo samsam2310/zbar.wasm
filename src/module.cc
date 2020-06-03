@@ -1,6 +1,4 @@
-// #include <iostream>
 #include <emscripten.h>
-// #include <string.h>
 #include <zbar.h>
 
 #define EXPORT EMSCRIPTEN_KEEPALIVE
@@ -50,6 +48,7 @@ EXPORT zbar::Image* Image_create(uint32_t width,
                                  uint32_t sequence_num) {
   zbar::Image* image = new zbar::Image(width, height);
   image->set_format(format);
+  /* image will take ownership of data */
   image->set_data(data, length);
   image->set_sequence(sequence_num);
   return image;

@@ -1,4 +1,3 @@
-// import wasmBinaryFile from './zbar.wasm';
 const fs = require('fs');
 const util = require('util');
 

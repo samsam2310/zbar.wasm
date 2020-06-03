@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 
- // import { getInstance } from '../instance';
+// import { getInstance } from '../instance';
 
 test('WASM Instance', async () => {
   const decoder = new TextDecoder();

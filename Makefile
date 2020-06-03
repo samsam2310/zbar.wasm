@@ -53,3 +53,4 @@ clean:
 	rm dist/*.js
 	rm dist/*.d.ts
 	rm dist/*.map
+	rm dist/*.o

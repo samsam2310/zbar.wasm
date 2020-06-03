@@ -2,40 +2,58 @@ import ImageScanner from './ImageScanner';
 import Image from './Image';
 import { Symbol } from './Symbol';
 
-const createDefaultScanner = async () => {
-  return await ImageScanner.create();
+const defaultScannerPromise = ImageScanner.create();
+export const getDefaultScanner = async () => {
+  return await defaultScannerPromise;
 };
 
-export const scanArrayBuffer = async (
+const scanImage = async (
+  image: Image,
+  scanner?: ImageScanner
+): Promise<Array<Symbol>> => {
+  if (scanner === undefined) {
+    scanner = await defaultScannerPromise;
+  }
+  const res = scanner.scan(image);
+  if (res < 0) {
+    throw Error('Scan Failed');
+  }
+  if (res === 0) return [];
+  return await Symbol.getSymbolsFromPtr(image.getSymbols());
+};
+
+export const scanGrayBuffer = async (
   buffer: ArrayBuffer,
   width: number,
   height: number,
-  format: number | string,
   scanner?: ImageScanner
-) => {
-  if (scanner === undefined) {
-    scanner = await createDefaultScanner();
-  }
-  const image = await Image.createFromRGBABuffer(width, height, buffer);
-  console.log('scan: ', scanner.scan(image));
-  const res = await Symbol.getSymbolsFromPtr(image.getSymbols());
+): Promise<Array<Symbol>> => {
+  const image = await Image.createFromGrayBuffer(width, height, buffer);
+  const res = await scanImage(image, scanner);
   image.destory();
-  // console.log(res);
-  for (let sym of res) {
-    console.log(sym.decode());
-  }
+  return res;
+};
+
+export const scanRGBABuffer = async (
+  buffer: ArrayBuffer,
+  width: number,
+  height: number,
+  scanner?: ImageScanner
+): Promise<Array<Symbol>> => {
+  const image = await Image.createFromRGBABuffer(width, height, buffer);
+  const res = await scanImage(image, scanner);
+  image.destory();
   return res;
 };
 
 export const scanImageData = async (
   image: ImageData,
   scanner?: ImageScanner
-) => {
-  return await scanArrayBuffer(
+): Promise<Array<Symbol>> => {
+  return await scanRGBABuffer(
     image.data.buffer,
     image.width,
     image.height,
-    0x41424752 /* RGBA */,
     scanner
   );
 };
