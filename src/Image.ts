@@ -76,8 +76,8 @@ export default class Image extends CppObject {
   //   throw TypeError('invalid arguments');
   // }
 
-  getSymbols(): any {
-    // TODO
-    return {};
+  getSymbols(): number {
+    this.checkAlive();
+    return this.inst.Image_get_symbols(this.ptr);
   }
 }

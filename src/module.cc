@@ -59,27 +59,7 @@ EXPORT void Image_destory(zbar::Image* image) {
   delete image;
 }
 
-EXPORT zbar::Image* Image_convert(zbar::Image* image, uint32_t format) {
-  zbar::Image* new_image = new zbar::Image(image->convert(format));
-  return new_image;
-}
-
-EXPORT zbar::Image* Image_convert_resize(zbar::Image* image,
-                                         uint32_t format,
-                                         uint32_t width,
-                                         uint32_t height) {
-  zbar::Image* new_image =
-      new zbar::Image(image->convert(format, width, height));
-  return new_image;
-}
-
 EXPORT const zbar::zbar_symbol_set_t* Image_get_symbols(zbar::Image* image) {
   return static_cast<const zbar::zbar_symbol_set_t*>(image->get_symbols());
 }
 }
-
-// int main(int argc, char** argv) {
-  // if (malloc(20000) == 0) return 1;
-    // scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
-    // std::cout << "Init scanner" << std::endl;
-// }

@@ -145,7 +145,6 @@ const proc_exit = (x: number) => {
 // };
 
 const clock_gettime = (clk_id: number, tp: number): number => {
-  console.log('GG');
   let now;
   if (clk_id === 0) {
     now = Date.now();
@@ -175,7 +174,6 @@ const ___wasi_fd_write = (
   iovcnt: number,
   pnum: number
 ): number => {
-  console.log('GG');
   var num = 0;
   for (var i = 0; i < iovcnt; i++) {
     var ptr = HEAP32[(iov + i * 8) >> 2];

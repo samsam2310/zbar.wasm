@@ -25,7 +25,6 @@ export default class ImageScanner extends CppObject {
 
   scan(image: Image): number {
     this.checkAlive();
-    console.log(this.inst.ImageScanner_scan);
-    return this.inst.ImageScanner_scan(this.ptr, image.getPointer(), 1);
+    return this.inst.ImageScanner_scan(this.ptr, image.getPointer());
   }
 }
