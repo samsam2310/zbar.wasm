@@ -9,7 +9,7 @@ EMXX = $(EM_DOCKER) em++
 EMMAKE = $(EM_DOCKER) emmake
 EMCONFIG = $(EM_DOCKER) emconfigure
 
-ZBAR_DEPS = $(ZBAR_SOURCE)/zbar/zbar_libzbar_la-img_scanner.o
+ZBAR_DEPS = $(ZBAR_SOURCE)/make.done
 ZBAR_OBJS = $(ZBAR_SOURCE)/zbar/*.o $(ZBAR_SOURCE)/zbar/*/*.o
 ZBAR_INC = -I $(ZBAR_SOURCE)/include/ -I $(ZBAR_SOURCE)/
 EMXX_FLAGS = -Os -s WASM=1 -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
@@ -33,6 +33,7 @@ dist/zbar.wasm: $(ZBAR_DEPS) src/module.cc dist/symbol.test.o
 
 $(ZBAR_DEPS): $(ZBAR_SOURCE)/Makefile
 	cd $(ZBAR_SOURCE) && $(EMMAKE) make CFLAGS=-Os CXXFLAGS=-Os
+	touch -m $(ZBAR_DEPS)
 
 $(ZBAR_SOURCE)/Makefile: $(ZBAR_SOURCE)/configure
 	cd $(ZBAR_SOURCE) && $(EMCONFIG) ./configure --without-x --without-jpeg \

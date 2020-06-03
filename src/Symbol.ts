@@ -79,6 +79,7 @@ class SymbolSetPtr extends TypePointer {
 }
 
 export class Symbol {
+  type: ZBarSymbolType;
   data: Int8Array;
   points: Array<Point>;
   time: number;
@@ -86,6 +87,7 @@ export class Symbol {
   quality: number;
 
   private constructor(ptr: SymbolPtr) {
+    this.type = ptr.type;
     this.data = ptr.data;
     this.points = ptr.points;
     this.time = ptr.time;
@@ -94,6 +96,8 @@ export class Symbol {
   }
 
   static createSymbolsFromPtr(ptr: number, buf: ArrayBuffer): Array<Symbol> {
+    if (ptr == 0) return [];
+
     const set = new SymbolSetPtr(ptr, buf);
     let symbol = set.head;
     const res = [];

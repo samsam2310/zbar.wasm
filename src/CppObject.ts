@@ -4,7 +4,7 @@ export class CppObject {
   protected ptr: number;
   protected inst: ZBar;
 
-  protected constructor(ptr: number, inst: any) {
+  protected constructor(ptr: number, inst: ZBar) {
     this.ptr = ptr;
     this.inst = inst;
   }

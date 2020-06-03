@@ -1,33 +1,13 @@
-/**
- * @jest-environment node
- */
-
-// import { getInstance } from '../instance';
+import { getInstance } from '../instance';
 
 test('WASM Instance', async () => {
   const decoder = new TextDecoder();
-  // const inst = await getInstance();
-  // const buffer = new ArrayBuffer(10000);
-  // const u8 = new Uint8Array(buffer);
-  // for (let i = 0; i < u8.byteLength; ++i) {
-  //   u8[i] = 127;
-  // }
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // writeBuffer(buffer);
-  // console.log(inst._malloc(187440));
-  // console.log(inst._malloc(187440));
-  // console.log(inst._malloc(187440));
+  const inst = await getInstance();
+  for (let i = 0; i < 100; ++i) {
+    const ptr = inst.malloc(1000);
+    const HEAP8 = new Int8Array(inst.memory.buffer);
+    for (let j = 0; j < 1000; ++j) {
+      HEAP8[ptr + j] = 127;
+    }
+  }
 });
