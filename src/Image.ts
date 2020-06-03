@@ -1,7 +1,8 @@
-import CppObject from './CppObject';
+import { CppObject } from './CppObject';
+import { Symbol } from './Symbol';
 import { getInstance } from './instance';
 
-export default class Image extends CppObject {
+export class Image extends CppObject {
   static async createFromGrayBuffer(
     width: number,
     height: number,
@@ -62,8 +63,9 @@ export default class Image extends CppObject {
     this.ptr = 0;
   }
 
-  getSymbols(): number {
+  getSymbols(): Array<Symbol> {
     this.checkAlive();
-    return this.inst.Image_get_symbols(this.ptr);
+    const res = this.inst.Image_get_symbols(this.ptr);
+    return Symbol.createSymbolsFromPtr(res, this.inst.memory.buffer);
   }
 }

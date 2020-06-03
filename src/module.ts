@@ -1,5 +1,5 @@
-import ImageScanner from './ImageScanner';
-import Image from './Image';
+import { Image } from './Image';
+import { ImageScanner } from './ImageScanner';
 import { Symbol } from './Symbol';
 
 const defaultScannerPromise = ImageScanner.create();
@@ -19,7 +19,7 @@ const scanImage = async (
     throw Error('Scan Failed');
   }
   if (res === 0) return [];
-  return await Symbol.getSymbolsFromPtr(image.getSymbols());
+  return image.getSymbols();
 };
 
 export const scanGrayBuffer = async (

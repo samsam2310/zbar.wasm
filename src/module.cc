@@ -22,7 +22,7 @@ EXPORT int ImageScanner_set_config(zbar::ImageScanner* scanner,
 }
 
 EXPORT void ImageScanner_enable_cache(zbar::ImageScanner* scanner,
-                                      bool enable = true) {
+                                      bool enable) {
   scanner->enable_cache(enable);
 }
 

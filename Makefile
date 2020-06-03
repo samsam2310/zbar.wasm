@@ -13,7 +13,7 @@ ZBAR_DEPS = $(ZBAR_SOURCE)/zbar/zbar_libzbar_la-img_scanner.o
 ZBAR_OBJS = $(ZBAR_SOURCE)/zbar/*.o $(ZBAR_SOURCE)/zbar/*/*.o
 ZBAR_INC = -I $(ZBAR_SOURCE)/include/ -I $(ZBAR_SOURCE)/
 EMXX_FLAGS = -Os -s WASM=1 -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
-	-s EXPORTED_FUNCTIONS="['_malloc', '_free']"
+	-s EXPORTED_FUNCTIONS="['_malloc']"
 
 TSC = npx tsc
 TSC_FLAGS = -p ./

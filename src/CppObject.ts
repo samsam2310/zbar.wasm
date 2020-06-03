@@ -1,6 +1,6 @@
 import ZBar from './ZBar';
 
-export default class CppObject {
+export class CppObject {
   protected ptr: number;
   protected inst: ZBar;
 
