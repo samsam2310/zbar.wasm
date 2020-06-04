@@ -2,8 +2,10 @@
   "name": "zbar.wasm",
   "version": "1.0.0",
   "description": "A wasm build for C/C++ Zbar barcode scanning library.",
-  "main": "index.js",
-  "type": "module",
+  "main": "dist/index.js",
+  "browser": {
+    "./dist/load.js": "./dist/load-browser.js"
+  },
   "jest": {
     "testMatch": [
       "**/?(*.)+(spec|test).[j]s?(x)"

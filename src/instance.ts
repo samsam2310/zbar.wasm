@@ -77,7 +77,12 @@ const ___wasi_fd_seek = () => {
   return 0;
 };
 
+let lastGrowTimestamp = 0;
 const emscripten_notify_memory_growth = (idx: number) => {
+  if (lastGrowTimestamp) {
+    console.warn('zbar.wasm: Memory Grow: ', inst!.memory.buffer.byteLength);
+  }
+  lastGrowTimestamp = Date.now();
   HEAPU8 = new Uint8Array(inst!.memory.buffer);
   HEAP32 = new Int32Array(inst!.memory.buffer);
 };
@@ -95,14 +100,20 @@ const importObj = {
   }
 };
 
-let instPromise = loadWasmInstance(importObj);
-
-export const getInstance = async (): Promise<ZBar> => {
-  const res = await instPromise;
+let instPromise = (async () => {
+  const res = await loadWasmInstance(importObj);
   if (!res) {
     throw Error('WASM was not loaded');
   }
   inst = res.exports as ZBar;
   emscripten_notify_memory_growth(0);
   return inst;
+})();
+
+export const getInstance = async (): Promise<ZBar> => {
+  return await instPromise;
+};
+
+export const getMemoryGrowTimestamp = (): number => {
+  return lastGrowTimestamp;
 };

@@ -1,4 +1,5 @@
-declare module 'raw-loader!*' {
-  const content: string;
-  export default content;
-}
+declare module '*.bin';
+// declare module '!./zbar.wasm' {
+//   const content: string;
+//   export default content;
+// }

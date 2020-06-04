@@ -6,6 +6,7 @@ EM_VERSION = 1.39.8-upstream
 EM_DOCKER = docker run --rm -w /src -v $$PWD:/src trzeci/emscripten:$(EM_VERSION)
 EMCC = $(EM_DOCKER) emcc
 EMXX = $(EM_DOCKER) em++
+WASM2WAT = $(EM_DOCKER) wasm2wat
 EMMAKE = $(EM_DOCKER) emmake
 EMCONFIG = $(EM_DOCKER) emconfigure
 
@@ -20,16 +21,20 @@ TSC_FLAGS = -p ./
 
 all: dist/zbar.wasm .ts
 
-debug: $(ZBAR_DEPS) src/module.cc
+debug: $(ZBAR_DEPS) dist/zbar.wast src/module.cc
 	$(EMXX) $(EMXX_FLAGS) -g2 -o dist/zbar-debug.js src/module.cc $(ZBAR_INC) \
 		$(ZBAR_OBJS)
 
 dist/symbol.test.o: $(ZBAR_DEPS) src/symbol.test.c
 	$(EMCC) -Wall -Werror -g2 -c src/symbol.test.c -o $@ $(ZBAR_INC)
 
+dist/zbar.wast: dist/zbar.wasm
+	$(WASM2WAT) dist/zbar.wasm -o dist/zbar.wast
+
 dist/zbar.wasm: $(ZBAR_DEPS) src/module.cc dist/symbol.test.o
 	$(EMXX) $(EMXX_FLAGS) -o dist/zbar.wasm src/module.cc $(ZBAR_INC) \
 		$(ZBAR_OBJS)
+	cp dist/zbar.wasm dist/zbar.wasm.bin
 
 $(ZBAR_DEPS): $(ZBAR_SOURCE)/Makefile
 	cd $(ZBAR_SOURCE) && $(EMMAKE) make CFLAGS=-Os CXXFLAGS=-Os

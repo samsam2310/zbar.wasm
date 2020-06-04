@@ -80,6 +80,7 @@ class SymbolSetPtr extends TypePointer {
 
 export class Symbol {
   type: ZBarSymbolType;
+  typeName: string;
   data: Int8Array;
   points: Array<Point>;
   time: number;
@@ -88,6 +89,7 @@ export class Symbol {
 
   private constructor(ptr: SymbolPtr) {
     this.type = ptr.type;
+    this.typeName = ZBarSymbolType[this.type];
     this.data = ptr.data;
     this.points = ptr.points;
     this.time = ptr.time;

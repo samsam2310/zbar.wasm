@@ -66,8 +66,6 @@ test('Barcode', async () => {
   res = await scanImageData(img5);
   expect(res).toHaveLength(0);
 
-  defaultScanner.destory();
-
   const scanner = await ImageScanner.create();
   res = await scanImageData(img5, scanner);
   expect(res).toHaveLength(1);
@@ -95,4 +93,7 @@ test('Barcode', async () => {
   expect(res).toHaveLength(1);
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_EAN13);
   expect(res[0].decode()).toEqual('9781234567897');
+
+  scanner.destory();
+  expect(scanImageData(img5, scanner)).rejects.toThrow('Call after destroyed');
 });

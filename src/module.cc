@@ -43,18 +43,19 @@ EXPORT int ImageScanner_scan(zbar::ImageScanner* scanner, zbar::Image* image) {
 EXPORT zbar::Image* Image_create(uint32_t width,
                                  uint32_t height,
                                  uint32_t format,
-                                 const void* data,
+                                 void* data,
                                  uint32_t length,
                                  uint32_t sequence_num) {
   zbar::Image* image = new zbar::Image(width, height);
   image->set_format(format);
-  /* image will take ownership of data */
   image->set_data(data, length);
   image->set_sequence(sequence_num);
   return image;
 }
 
 EXPORT void Image_destory(zbar::Image* image) {
+  /* Image object won't free image data. */
+  free(const_cast<void*>(image->get_data()));
   delete image;
 }
 

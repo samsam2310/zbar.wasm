@@ -1,4 +1,3 @@
-import fs from 'fs';
 import { createCanvas, loadImage } from 'canvas';
 
 export const getImageData = async (src: string) => {
