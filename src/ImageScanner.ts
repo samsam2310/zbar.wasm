@@ -11,7 +11,7 @@ export class ImageScanner extends CppObject {
     return new this(ptr, inst);
   }
 
-  destory(): void {
+  destroy(): void {
     this.checkAlive();
     this.inst.ImageScanner_destory(this.ptr);
     this.ptr = 0;

@@ -7,9 +7,9 @@ test('Image', async () => {
   image = await Image.createFromGrayBuffer(2, 2, data.buffer);
   syms = image.getSymbols();
   expect(syms).toHaveLength(0);
-  image.destory();
+  image.destroy();
   expect(() => {
-    image.destory();
+    image.destroy();
   }).toThrow('Call after destroyed');
   expect(() => {
     image.getSymbols();
@@ -18,9 +18,9 @@ test('Image', async () => {
   image = await Image.createFromRGBABuffer(1, 1, data.buffer);
   syms = image.getSymbols();
   expect(syms).toHaveLength(0);
-  image.destory();
+  image.destroy();
   expect(() => {
-    image.destory();
+    image.destroy();
   }).toThrow('Call after destroyed');
   expect(() => {
     image.getSymbols();

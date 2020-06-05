@@ -94,6 +94,6 @@ test('Barcode', async () => {
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_EAN13);
   expect(res[0].decode()).toEqual('9781234567897');
 
-  scanner.destory();
+  scanner.destroy();
   expect(scanImageData(img5, scanner)).rejects.toThrow('Call after destroyed');
 });

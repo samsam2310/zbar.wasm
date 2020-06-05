@@ -30,7 +30,7 @@ export const scanGrayBuffer = async (
 ): Promise<Array<Symbol>> => {
   const image = await Image.createFromGrayBuffer(width, height, buffer);
   const res = await scanImage(image, scanner);
-  image.destory();
+  image.destroy();
   return res;
 };
 
@@ -42,7 +42,7 @@ export const scanRGBABuffer = async (
 ): Promise<Array<Symbol>> => {
   const image = await Image.createFromRGBABuffer(width, height, buffer);
   const res = await scanImage(image, scanner);
-  image.destory();
+  image.destroy();
   return res;
 };
 

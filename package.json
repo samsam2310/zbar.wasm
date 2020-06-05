@@ -1,6 +1,6 @@
 {
   "name": "zbar.wasm",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A wasm build of C/C++ Zbar barcode scanning library.",
   "main": "dist/index.js",
   "browser": {

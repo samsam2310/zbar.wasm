@@ -57,7 +57,7 @@ export class Image extends CppObject {
     return new this(ptr, inst);
   }
 
-  destory(): void {
+  destroy(): void {
     this.checkAlive();
     this.inst.Image_destory(this.ptr);
     this.ptr = 0;

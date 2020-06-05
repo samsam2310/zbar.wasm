@@ -24,7 +24,7 @@ test('ImageScanner', async () => {
   ).toEqual(0);
   expect(scanner.setConfig(87, ZBarConfigType.ZBAR_CFG_ENABLE, 0)).toEqual(1);
 
-  image.destory();
+  image.destroy();
   expect(() => {
     scanner.scan(image);
   }).toThrow('Call after destroyed');
@@ -33,9 +33,9 @@ test('ImageScanner', async () => {
   }).toThrow('Call after destroyed');
 
   image = await Image.createFromGrayBuffer(2, 2, data.buffer);
-  scanner.destory();
+  scanner.destroy();
   expect(() => {
-    scanner.destory();
+    scanner.destroy();
   }).toThrow('Call after destroyed');
   expect(() => {
     scanner.getResults();
