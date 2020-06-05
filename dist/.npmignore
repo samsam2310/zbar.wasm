@@ -1,0 +1,6 @@
+.gitignore
+*.pre
+*.o
+*.wast
+test/
+zbar-debug.*

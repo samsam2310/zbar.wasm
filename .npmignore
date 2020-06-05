@@ -1,9 +1,8 @@
 *.tar.gz
+*.tgz
 .*
-.travis/
-data/.gitignore
 src/
-test/
 zbar-*/
 Makefile
-webpack.config.js
+*.config.js
+tsconfig.json

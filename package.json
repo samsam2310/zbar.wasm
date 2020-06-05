@@ -1,11 +1,21 @@
 {
   "name": "zbar.wasm",
-  "version": "1.0.0",
-  "description": "A wasm build for C/C++ Zbar bar code scan library.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A wasm build of C/C++ Zbar barcode scanning library.",
+  "main": "dist/index.js",
+  "browser": {
+    "./dist/load.js": "./dist/load-browser.js"
+  },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(spec|test).[j]s?(x)"
+    ],
+    "testEnvironment": "node"
+  },
   "scripts": {
     "build": "make",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "git diff --cached --name-only --diff-filter=ACMR \"*.ts\" \"*.js\" | sed 's| |\\ |g' | xargs prettier --write",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -24,15 +34,12 @@
   "homepage": "https://github.com/samsam2310/zbar.wasm#readme",
   "dependencies": {},
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "canvas": "^2.0.0-alpha.12",
-    "node-loader": "^0.6.0",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.9",
+    "canvas": "^2.6.1",
+    "jest": "^26.0.1",
+    "jest-environment-node": "^26.0.1",
     "prettier": "^1.13.2",
-    "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.4"
+    "typescript": "^3.9.3"
   }
 }

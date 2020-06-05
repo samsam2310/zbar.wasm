@@ -5,19 +5,18 @@ language: node_js
 node_js:
   - node
 
-sudo: required
-
 services:
   - docker
 
 before_install:
-  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit bash
+  - docker pull trzeci/emscripten:1.39.8-upstream
 
-script:
-  - docker exec -it emscripten make
+install:
+  - npm install
+  - make
 
-before_deploy:
-  - if [ "$TRAVIS_TAG" == "" ]; then .travis/staging-version.sh; fi
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 deploy:
   - provider: npm
