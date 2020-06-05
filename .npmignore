@@ -3,6 +3,7 @@
 .*
 src/
 zbar-*/
+coverage/
 Makefile
 *.config.js
 tsconfig.json
