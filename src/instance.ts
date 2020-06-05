@@ -80,7 +80,7 @@ const ___wasi_fd_seek = () => {
 let lastGrowTimestamp = 0;
 const emscripten_notify_memory_growth = (idx: number) => {
   if (lastGrowTimestamp) {
-    console.warn('zbar.wasm: Memory Grow: ', inst!.memory.buffer.byteLength);
+    console.info('zbar.wasm: Memory Grow: ', inst!.memory.buffer.byteLength);
   }
   lastGrowTimestamp = Date.now();
   HEAPU8 = new Uint8Array(inst!.memory.buffer);

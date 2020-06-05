@@ -1,6 +1,8 @@
 *.tar.gz
+*.tgz
 .*
 src/
 zbar-*/
 Makefile
 *.config.js
+tsconfig.json

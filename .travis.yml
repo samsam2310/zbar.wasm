@@ -15,6 +15,9 @@ install:
   - npm install
   - make
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 deploy:
   - provider: npm
     email: $NPM_EMAIL

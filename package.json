@@ -1,7 +1,7 @@
 {
   "name": "zbar.wasm",
-  "version": "1.0.0",
-  "description": "A wasm build for C/C++ Zbar barcode scanning library.",
+  "version": "2.0.0",
+  "description": "A wasm build of C/C++ Zbar barcode scanning library.",
   "main": "dist/index.js",
   "browser": {
     "./dist/load.js": "./dist/load-browser.js"
@@ -15,7 +15,7 @@
   "scripts": {
     "build": "make",
     "format": "git diff --cached --name-only --diff-filter=ACMR \"*.ts\" \"*.js\" | sed 's| |\\ |g' | xargs prettier --write",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
