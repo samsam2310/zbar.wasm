@@ -25,4 +25,11 @@ test('Image', async () => {
   expect(() => {
     image.getSymbols();
   }).toThrow('Call after destroyed');
+
+  await expect(Image.createFromRGBABuffer(2, 2, data.buffer)).rejects.toThrow(
+    'dataBuf does not match width and height'
+  );
+  await expect(Image.createFromGrayBuffer(1, 1, data.buffer)).rejects.toThrow(
+    'dataBuf does not match width and height'
+  );
 });

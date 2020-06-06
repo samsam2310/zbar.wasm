@@ -14,6 +14,7 @@ test('ImageScanner', async () => {
   expect(scanner.getResults()).toHaveLength(0);
   scanner.recycleImage(image);
   scanner.enableCache(true);
+  scanner.enableCache();
   scanner.enableCache(false);
   expect(
     scanner.setConfig(

@@ -95,5 +95,7 @@ test('Barcode', async () => {
   expect(res[0].decode()).toEqual('9781234567897');
 
   scanner.destroy();
-  expect(scanImageData(img5, scanner)).rejects.toThrow('Call after destroyed');
+  await expect(scanImageData(img5, scanner)).rejects.toThrow(
+    'Call after destroyed'
+  );
 });

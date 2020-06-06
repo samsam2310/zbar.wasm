@@ -67,10 +67,6 @@ class SymbolPtr extends TypePointer {
 }
 
 class SymbolSetPtr extends TypePointer {
-  get nsyms(): number {
-    return this.HEAP32[this.ptr32 + 1];
-  }
-
   get head(): SymbolPtr | null {
     const ptr = this.HEAPU32[this.ptr32 + 2];
     if (!ptr) return null;
