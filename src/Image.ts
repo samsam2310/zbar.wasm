@@ -39,6 +39,9 @@ export class Image extends CppObject {
     const heap = new Uint8Array(inst.memory.buffer);
     const data = new Uint8Array(dataBuf);
     const len = width * height;
+    if (len * 4 !== data.byteLength) {
+      throw Error('dataBuf does not match width and height');
+    }
     const buf = inst.malloc(len);
     for (let i = 0; i < len; ++i) {
       const r = data[i * 4];
