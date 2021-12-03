@@ -9,7 +9,7 @@ services:
   - docker
 
 before_install:
-  - docker pull trzeci/emscripten:1.39.8-upstream
+  - docker pull emscripten/emsdk:3.0.0
 
 install:
   - npm install

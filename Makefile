@@ -3,7 +3,7 @@ SRC_DIR = ./src
 TS_SRC ::= $(shell find $(SRC_DIR) -name '*.ts')
 
 EM_VERSION = 3.0.0
-EM_DOCKER = podman run --rm -w /src -v $$PWD:/src emscripten/emsdk:$(EM_VERSION)
+EM_DOCKER = docker run --rm -u $(id -u):$(id -g) -w /src -v $$PWD:/src emscripten/emsdk:$(EM_VERSION)
 EMCC = $(EM_DOCKER) emcc
 # EMXX = $(EM_DOCKER) em++
 WASM2WAT = $(EM_DOCKER) wasm2wat
