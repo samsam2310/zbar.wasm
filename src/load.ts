@@ -1,12 +1,9 @@
-const fs = require('fs');
-const util = require('util');
+import ZBar from './ZBar';
 
-const readFile = util.promisify(fs.readFile);
+const instantiate = require('./zbar')
 
 export const loadWasmInstance = async (
   importObj: any
-): Promise<WebAssembly.Instance | null> => {
-  const binary = await readFile(__dirname + '/zbar.wasm');
-  const output = await WebAssembly.instantiate(binary, importObj);
-  return output.instance;
+): Promise<ZBar | null> => {
+  return await instantiate(importObj);
 };

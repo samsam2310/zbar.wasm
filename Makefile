@@ -1,9 +1,9 @@
-ZBAR_SOURCE = zbar-0.10
+ZBAR_SOURCE = zbar-0.23.90
 SRC_DIR = ./src
 TS_SRC ::= $(shell find $(SRC_DIR) -name '*.ts')
 
-EM_VERSION = 1.39.8-upstream
-EM_DOCKER = docker run --rm -w /src -v $$PWD:/src trzeci/emscripten:$(EM_VERSION)
+EM_VERSION = 3.0.0
+EM_DOCKER = podman run --rm -w /src -v $$PWD:/src emscripten/emsdk:$(EM_VERSION)
 EMCC = $(EM_DOCKER) emcc
 # EMXX = $(EM_DOCKER) em++
 WASM2WAT = $(EM_DOCKER) wasm2wat
@@ -13,8 +13,9 @@ EMCONFIG = $(EM_DOCKER) emconfigure
 ZBAR_DEPS = $(ZBAR_SOURCE)/make.done
 ZBAR_OBJS = $(ZBAR_SOURCE)/zbar/*.o $(ZBAR_SOURCE)/zbar/*/*.o
 ZBAR_INC = -I $(ZBAR_SOURCE)/include/ -I $(ZBAR_SOURCE)/
-EMCC_FLAGS = -Os -s WASM=1 -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
-	-s EXPORTED_FUNCTIONS="['_malloc']"
+EMCC_FLAGS = -Os -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
+	-s EXPORTED_FUNCTIONS="['_malloc','_free']" \
+	-s MODULARIZE=1 -s EXPORT_NAME=instantiate
 
 TSC = npx tsc
 TSC_FLAGS = -p ./
@@ -32,7 +33,7 @@ dist/zbar.wast: dist/zbar.wasm
 	$(WASM2WAT) dist/zbar.wasm -o dist/zbar.wast
 
 dist/zbar.wasm: $(ZBAR_DEPS) src/module.c dist/symbol.test.o
-	$(EMCC) $(EMCC_FLAGS) -o dist/zbar.wasm src/module.c $(ZBAR_INC) \
+	$(EMCC) $(EMCC_FLAGS) -o dist/zbar.js src/module.c $(ZBAR_INC) \
 		$(ZBAR_OBJS)
 	cp dist/zbar.wasm dist/zbar.wasm.bin
 

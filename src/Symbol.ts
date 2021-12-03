@@ -13,6 +13,7 @@ class TypePointer {
   protected HEAP8: Int8Array;
   protected HEAP32: Int32Array;
   protected HEAPU32: Uint32Array;
+
   constructor(ptr: number, buf: ArrayBuffer) {
     this.ptr = ptr;
     this.ptr32 = ptr >> 2;
@@ -29,14 +30,14 @@ class SymbolPtr extends TypePointer {
   }
 
   get data(): Int8Array {
-    const len = this.HEAPU32[this.ptr32 + 2];
-    const ptr = this.HEAPU32[this.ptr32 + 3];
+    const len = this.HEAPU32[this.ptr32 + 4];
+    const ptr = this.HEAPU32[this.ptr32 + 5];
     return Int8Array.from(this.HEAP8.subarray(ptr, ptr + len));
   }
 
   get points(): Array<Point> {
-    const len = this.HEAPU32[this.ptr32 + 5];
-    const ptr = this.HEAPU32[this.ptr32 + 6];
+    const len = this.HEAPU32[this.ptr32 + 7];
+    const ptr = this.HEAPU32[this.ptr32 + 8];
     const ptr32 = ptr >> 2;
     const res = [];
     for (let i = 0; i < len; ++i) {
@@ -48,21 +49,21 @@ class SymbolPtr extends TypePointer {
   }
 
   get next(): SymbolPtr | null {
-    const ptr = this.HEAPU32[this.ptr32 + 8];
+    const ptr = this.HEAPU32[this.ptr32 + 11];
     if (!ptr) return null;
     return new SymbolPtr(ptr, this.buf);
   }
 
   get time(): number {
-    return this.HEAPU32[this.ptr32 + 10];
+    return this.HEAPU32[this.ptr32 + 13];
   }
 
   get cacheCount(): number {
-    return this.HEAP32[this.ptr32 + 11];
+    return this.HEAP32[this.ptr32 + 14];
   }
 
   get quality(): number {
-    return this.HEAP32[this.ptr32 + 12];
+    return this.HEAP32[this.ptr32 + 15];
   }
 }
 
