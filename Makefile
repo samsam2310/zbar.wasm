@@ -3,7 +3,7 @@ SRC_DIR = ./src
 TS_SRC ::= $(shell find $(SRC_DIR) -name '*.ts')
 
 EM_VERSION = 3.0.0
-EM_DOCKER = docker run --rm -u $(id -u):$(id -g) -w /src -v $$PWD:/src emscripten/emsdk:$(EM_VERSION)
+EM_DOCKER = docker run --rm -w /src -v $$PWD:/src emscripten/emsdk:$(EM_VERSION)
 EMCC = $(EM_DOCKER) emcc
 # EMXX = $(EM_DOCKER) em++
 WASM2WAT = $(EM_DOCKER) wasm2wat
@@ -36,7 +36,6 @@ dist/zbar.wasm: $(ZBAR_DEPS) src/module.c dist/symbol.test.o
 	$(EMCC) $(EMCC_FLAGS) -o dist/zbar.js src/module.c $(ZBAR_INC) \
 		$(ZBAR_OBJS)
 	cp dist/zbar.wasm dist/zbar.wasm.bin
-	sed 's/"zbar.wasm"/"zbar.wasm.bin"/g' dist/zbar.js > dist/zbar.bin.js
 
 $(ZBAR_DEPS): $(ZBAR_SOURCE)/Makefile
 	cd $(ZBAR_SOURCE) && $(EMMAKE) make CFLAGS=-Os CXXFLAGS=-Os \
@@ -61,7 +60,6 @@ $(ZBAR_SOURCE)/configure: $(ZBAR_SOURCE).tar.gz
 clean:
 	rm -rf $(ZBAR_SOURCE)
 	rm dist/*.wasm
-	rm dist/*.wasm.bin
 	rm dist/*.js
 	rm dist/*.d.ts
 	rm dist/*.map
