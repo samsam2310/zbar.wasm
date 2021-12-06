@@ -1,4 +1,5 @@
-ZBAR_SOURCE = zbar-0.23.90
+ZBAR_VERSION = 0.23.90
+ZBAR_SOURCE = zbar-$(ZBAR_VERSION)
 SRC_DIR = ./src
 TS_SRC ::= $(shell find $(SRC_DIR) -name '*.ts')
 
@@ -36,6 +37,7 @@ dist/zbar.wasm: $(ZBAR_DEPS) src/module.c dist/symbol.test.o
 	$(EMCC) $(EMCC_FLAGS) -o dist/zbar.js src/module.c $(ZBAR_INC) \
 		$(ZBAR_OBJS)
 	cp dist/zbar.wasm dist/zbar.wasm.bin
+	sed 's/"zbar.wasm"/"zbar.wasm.bin"/g' dist/zbar.js > dist/zbar.bin.js
 
 $(ZBAR_DEPS): $(ZBAR_SOURCE)/Makefile
 	cd $(ZBAR_SOURCE) && $(EMMAKE) make CFLAGS=-Os CXXFLAGS=-Os \
@@ -49,15 +51,18 @@ $(ZBAR_SOURCE)/Makefile: $(ZBAR_SOURCE)/configure
 		--without-python --without-qt --without-xshm --disable-video \
 		--disable-pthread --disable-assert
 
-
 $(ZBAR_SOURCE)/configure: $(ZBAR_SOURCE).tar.gz
 	tar zxvf $(ZBAR_SOURCE).tar.gz
 	touch -m $(ZBAR_SOURCE)/configure
+
+$(ZBAR_SOURCE).tar.gz:
+	curl -L -o $(ZBAR_SOURCE).tar.gz https://linuxtv.org/downloads/zbar/zbar-$(ZBAR_VERSION).tar.gz
 
 .ts: $(TS_SRC)
 	$(TSC) $(TSC_FLAGS)
 
 clean:
+	rm $(ZBAR_SOURCE).tar.gz
 	rm -rf $(ZBAR_SOURCE)
 	rm dist/*.wasm
 	rm dist/*.js

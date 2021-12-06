@@ -1,5 +1,6 @@
 # Build
 zbar-*/
+zbar-*.tar.gz
 package-lock.json
 
 # Logs
@@ -63,6 +64,3 @@ typings/
 
 # next.js build output
 .next
-
-# VS Code configuration
-.vscode
