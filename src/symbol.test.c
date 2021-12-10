@@ -9,4 +9,4 @@ static_assert(sizeof(refcnt_t) == 4, "refcnt_t");
 static_assert(sizeof(zbar_symbol_type_t) == 4, "zbar_symbol_type_t");
 static_assert((zbar_symbol_type_t)(-1) > 0, "enum is unsigned");
 static_assert(sizeof(zbar_symbol_set_t) == 4 * 4, "zbar_symbol_set_t");
-static_assert(sizeof(zbar_symbol_t) == 13 * 4, "zbar_symbol_t");
+static_assert(sizeof(zbar_symbol_t) == 16 * 4, "zbar_symbol_t");
