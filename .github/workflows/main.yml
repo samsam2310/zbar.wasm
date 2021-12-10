@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  release:
+    types: [ published ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_wasm:
+    runs-on: ubuntu-latest
+    container: emscripten/emsdk:3.0.0
+    steps:
+      - uses: actions/checkout@v2
+      - run: make dist/zbar.wasm EM_DOCKER=""
+      - uses: actions/upload-artifact@v2
+        with:
+          name: wasm
+          path: |
+            dist/*.wasm
+            dist/*.wasm.bin
+            dist/*.js
+          if-no-files-found: error
+
+  build_ant_test_node:
+    needs: build_wasm
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ '12', '14', '16', '17' ]
+        include:
+          - node: 16
+            upload_artifact: true
+    name: Build and test Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: wasm
+          path: dist
+      - run: npm install
+      - run: make .ts
+      - run: npm test
+      - uses: codecov/codecov-action@v2
+      - name: Upload artifact
+        if: ${{ matrix.upload_artifact }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            dist/*.wasm
+            dist/*.wasm.bin
+            dist/*.ts
+            dist/*.map
+            dist/*.js
+
+  publish_node:
+    needs: build_ant_test_node
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          dry-run: ${{ github.event_name != 'release' }}
