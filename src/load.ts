@@ -1,6 +1,5 @@
 import ZBar from './ZBar';
-
-const instantiate = require('./zbar')
+import instantiate from './zbar';
 
 export const loadWasmInstance = async (
   importObj: any
