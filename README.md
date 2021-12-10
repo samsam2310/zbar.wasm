@@ -1,7 +1,7 @@
 # ZBar.wasm
 
 [![GitHub](https://img.shields.io/github/license/samsam2310/zbar.wasm)](https://github.com/samsam2310/zbar.wasm/blob/master/LICENSE)
-[![Build Status](https://travis-ci.com/samsam2310/zbar.wasm.svg?branch=master)](https://travis-ci.com/samsam2310/zbar.wasm)
+![Build Status](https://github.com/samsam2310/zbar.wasm/actions/workflows/main.yml/badge.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/samsam2310/zbar.wasm)](https://codecov.io/github/samsam2310/zbar.wasm)
 [![npm version](https://badge.fury.io/js/zbar.wasm.svg)](https://www.npmjs.com/package/zbar.wasm)
 
@@ -60,8 +60,7 @@ For the reason why not just use `*.wasm` extensions, see [this issue](https://gi
 
 ZBar.wasm use [emscripten](https://emscripten.org/) to compile C++ code into webassembly.
 The default Makefile use docker to provide emscripten environment.
-Makesure docker command is accessable by the user that running Makefile.
-Overwrite Makefile variable can change the toolchains for building.
+Make sure `docker` is accessabled by the user that running Makefile, or override the variables in Makefile to change the toolchains for building.
 
 To build:
 ``` bash
