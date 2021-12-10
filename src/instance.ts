@@ -3,13 +3,8 @@ import ZBar from './ZBar';
 
 let inst: ZBar | null = null;
 
-const importObj = {
-  env: {
-  }
-};
-
 let instPromise = (async () => {
-  inst = await loadWasmInstance(importObj);
+  inst = await loadWasmInstance({});
   if (!inst) {
     throw Error('WASM was not loaded');
   }

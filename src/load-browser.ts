@@ -1,17 +1,27 @@
 /**
- * Webpack file-loader will not pack .wasm files correctly,
- * see https://github.com/webpack/webpack/issues/6725
- * Using extension .wasm.bin as a workaround. To facilitate
- * streaming compilation by the browser, .wasm.bin files
+ * Webpack trys to parse .wasm file even if file-loader is used. Using extension
+ * *.wasm.bin as a workaround.
+ * See https://github.com/webpack/webpack/issues/6725.
+ * To facilitate streaming compilation by the browser, *.wasm.bin files
  * should be served as MIME type 'application/wasm'.
  */
- import ZBar from './ZBar';
+// import wasmBinaryFile from './zbar.wasm';
+import wasmBinaryFileName from './zbar.wasm.bin';
+import ZBar from './ZBar';
+import instantiate from './zbar';
 
- const instantiate = require('./zbar.bin')
- 
- export const loadWasmInstance = async (
-   importObj: any
- ): Promise<ZBar | null> => {
-   return await instantiate(importObj);
- };
- 
+// locateFile is used to override the file path to the path provided by
+// file-loader.
+const locateFile = (file: string, _scriptDir: string) => {
+  if (file != 'zbar.wasm') {
+    console.error('Unexpected file:', file);
+  }
+  return wasmBinaryFileName;
+};
+
+export const loadWasmInstance = async (
+  importObj: any
+): Promise<ZBar | null> => {
+  importObj['locateFile'] = locateFile;
+  return await instantiate(importObj);
+};

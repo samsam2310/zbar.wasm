@@ -37,7 +37,6 @@ dist/zbar.wasm: $(ZBAR_DEPS) src/module.c dist/symbol.test.o
 	$(EMCC) $(EMCC_FLAGS) -o dist/zbar.js src/module.c $(ZBAR_INC) \
 		$(ZBAR_OBJS)
 	cp dist/zbar.wasm dist/zbar.wasm.bin
-	sed 's/"zbar.wasm"/"zbar.wasm.bin"/g' dist/zbar.js > dist/zbar.bin.js
 
 $(ZBAR_DEPS): $(ZBAR_SOURCE)/Makefile
 	cd $(ZBAR_SOURCE) && $(EMMAKE) make CFLAGS=-Os CXXFLAGS=-Os \
