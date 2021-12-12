@@ -21,6 +21,8 @@ EMCC_FLAGS = -Os -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
 TSC = npx tsc
 TSC_FLAGS = -p ./
 
+.PHONY: all debug clean .ts
+
 all: dist/zbar.wasm .ts
 
 debug: $(ZBAR_DEPS) dist/zbar.wast src/module.c
@@ -61,10 +63,12 @@ $(ZBAR_SOURCE).tar.gz:
 	$(TSC) $(TSC_FLAGS)
 
 clean:
-	rm $(ZBAR_SOURCE).tar.gz
-	rm -rf $(ZBAR_SOURCE)
-	rm dist/*.wasm
-	rm dist/*.js
-	rm dist/*.d.ts
-	rm dist/*.map
-	rm dist/*.o
+	rm -f $(ZBAR_SOURCE).tar.gz
+	$(EM_DOCKER) rm -rf $(ZBAR_SOURCE)
+	rm -rf dist/test
+	rm -f dist/*.wasm
+	rm -f dist/*.bin
+	rm -f dist/*.js
+	rm -f dist/*.d.ts
+	rm -f dist/*.map
+	rm -f dist/*.o
