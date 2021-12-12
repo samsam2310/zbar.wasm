@@ -1,12 +1,12 @@
 import { getImageData } from './utils';
 import { getInstance } from '../instance';
 import { scanImageData } from '../module';
+import { test, expect } from './utils';
 
 test('Multiple Scan Test', async () => {
   const inst = await getInstance();
-  const dir = __dirname + '/../../src/test';
   let res;
-  const img4 = await getImageData(dir + '/test4.png');
+  const img4 = await getImageData('/test4.png');
   res = await scanImageData(img4);
   expect(res).toHaveLength(2);
   const b = inst.HEAP8.buffer;

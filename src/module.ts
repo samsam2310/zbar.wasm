@@ -46,6 +46,12 @@ export const scanRGBABuffer = async (
   return res;
 };
 
+interface ImageData {
+  data: Uint8ClampedArray;
+  height: number;
+  width: number;
+};
+
 export const scanImageData = async (
   image: ImageData,
   scanner?: ImageScanner

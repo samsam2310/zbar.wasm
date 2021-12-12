@@ -1,5 +1,6 @@
 import { Image } from '../Image';
 import { Symbol } from '../Symbol';
+import { test, expect } from './utils';
 
 test('Image', async () => {
   const data = new Uint8Array([128, 128, 128, 128]);

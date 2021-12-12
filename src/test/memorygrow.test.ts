@@ -1,12 +1,12 @@
 import { getImageData } from './utils';
 import { getInstance } from '../instance';
 import { scanImageData } from '../module';
+import { test, expect } from './utils';
 
 test('Multiple Scan Test', async () => {
   const inst = await getInstance();
-  const dir = __dirname + '/../../src/test';
   let res;
-  const img4 = await getImageData(dir + '/test4.png');
+  const img4 = await getImageData('/test4.png');
   res = await scanImageData(img4);
   expect(res).toHaveLength(2);
 
@@ -19,7 +19,7 @@ test('Multiple Scan Test', async () => {
   let b2 = inst.HEAP8.buffer;
   expect(b2).not.toBe(b1);
   b1 = b2;
-  
+
   for (let i = 0; i < 100; ++i) {
     res = await scanImageData(img4);
     expect(res).toHaveLength(2);
@@ -29,7 +29,8 @@ test('Multiple Scan Test', async () => {
     b2 = inst.HEAP8.buffer;
   }
 
-  // Note: memory buffer and views may not need to be updated on *every* _malloc() call
+  // Note: memory buffer and views may not need to be updated on *every*
+  // _malloc() call.
   expect(b2).not.toBe(b1);
   inst._free(bfr);
 });

@@ -1,4 +1,5 @@
 import instantiate from '../zbar';
+import { test, expect } from './utils';
 
 test('WASM Instance', async () => {
   const inst = await instantiate({

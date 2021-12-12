@@ -1,4 +1,5 @@
 import { getInstance } from '../instance';
+import { test, expect } from './utils';
 
 test('WASM Instance', async () => {
   const inst = await getInstance();
