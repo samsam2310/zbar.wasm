@@ -116,7 +116,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
-      - uses: webfactory/ssh-agent@v0.4.0
+      - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.DENO_REPO_KEY }}
       - run: git clone git@github.com:zbar-wasm/zbar-wasm-deno.git
