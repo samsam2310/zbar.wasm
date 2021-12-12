@@ -110,6 +110,7 @@ jobs:
           path: |
             dist/**/*.js
             dist/**/*.ts
+            !dist/test/
 
   publish_deno:
     needs: build_and_test_deno

@@ -16,12 +16,11 @@ A webassembly build of C/C++ Zbar barcode scanning library.
 
 Online Demo: https://zbar-wasm.github.io/demo
 
+### Quick example (nodejs):
 Install:
 ``` bash
 npm i zbar.wasm
 ```
-
-Quick example (nodejs):
 
 ``` javascript
 const { createCanvas, loadImage } = require('canvas');
@@ -33,6 +32,30 @@ const getImageData = async (src) => {
   const ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
   return ctx.getImageData(0, 0, img.width, img.height);
+};
+
+const url = 'https://raw.githubusercontent.com/zbar-wasm/demo/master/node/test.png';
+const main = async () => {
+  const img = await getImageData(url);
+  const res = await scanImageData(img);
+  console.log(res[0].typeName); // ZBAR_QRCODE
+  console.log(res[0].decode()); // Hello World
+};
+
+main();
+```
+### Quick example (deno):
+
+```typescript
+import { createCanvas, loadImage } from "https://deno.land/x/canvas/mod.ts";
+import { scanImageData } from "https://deno.land/x/zbar_wasm/mod.ts"
+
+const getImageData = async (src: string) => {
+  const img = await loadImage(src);
+  const canvas = createCanvas(img.width(), img.height());
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  return ctx.getImageData(0, 0, img.width(), img.height());
 };
 
 const url = 'https://raw.githubusercontent.com/zbar-wasm/demo/master/node/test.png';
