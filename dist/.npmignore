@@ -1,6 +1,7 @@
-.gitignore
-*.pre
-*.o
-*.wast
-test/
-zbar-debug.*
+*
+*/
+!*.js
+!*.d.ts
+!*.js.map
+!*.wasm
+!*.wasm.bin

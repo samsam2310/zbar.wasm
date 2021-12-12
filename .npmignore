@@ -1,9 +1,5 @@
-*.tar.gz
-*.tgz
-.*
-src/
-zbar-*/
-coverage/
-Makefile
-*.config.js
-tsconfig.json
+*
+*/
+!README.md
+!LICENSE
+!dist/
