@@ -7,7 +7,7 @@
  */
 // import wasmBinaryFile from './zbar.wasm';
 import wasmBinaryFileName from './zbar.wasm.bin';
-import ZBar from './ZBar';
+import ZBarInstance from './ZBarInstance';
 import instantiate from './zbar';
 
 // locateFile is used to override the file path to the path provided by
@@ -21,7 +21,7 @@ const locateFile = (file: string, _scriptDir: string) => {
 
 export const loadWasmInstance = async (
   importObj: any
-): Promise<ZBar | null> => {
+): Promise<ZBarInstance | null> => {
   importObj['locateFile'] = locateFile;
   return await instantiate(importObj);
 };

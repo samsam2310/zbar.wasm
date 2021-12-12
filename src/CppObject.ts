@@ -1,10 +1,10 @@
-import ZBar from './ZBar';
+import ZBarInstance from './ZBarInstance';
 
 export class CppObject {
   protected ptr: number;
-  protected inst: ZBar;
+  protected inst: ZBarInstance;
 
-  protected constructor(ptr: number, inst: ZBar) {
+  protected constructor(ptr: number, inst: ZBarInstance) {
     this.ptr = ptr;
     this.inst = inst;
   }

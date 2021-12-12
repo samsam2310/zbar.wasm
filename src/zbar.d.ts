@@ -1,3 +1,3 @@
-import ZBar from './ZBar';
-declare const instantiate: (importObj: any) => Promise<ZBar>;
+import ZBarInstance from './ZBarInstance';
+declare const instantiate: (importObj: any) => Promise<ZBarInstance>;
 export default instantiate;
