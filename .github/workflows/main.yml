@@ -27,14 +27,14 @@ jobs:
             dist/*.js
           if-no-files-found: error
 
-  build_ant_test_node:
+  build_and_test_node:
     needs: build_wasm
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: [ '12', '14', '16', '17' ]
         include:
-          - node: 16
+          - node: '16'
             upload_artifact: true
     name: Build and test Node ${{ matrix.node }}
     steps:
@@ -47,14 +47,14 @@ jobs:
           name: wasm
           path: dist
       - run: npm install
-      - run: make .ts
-      - run: npm test
+      - run: make ts EM_DOCKER="false" ZBAR_WASM_DEPS=""
+      - run: make node-test EM_DOCKER="false" ZBAR_WASM_DEPS=""
       - uses: codecov/codecov-action@v2
       - name: Upload artifact
         if: ${{ matrix.upload_artifact }}
         uses: actions/upload-artifact@v2
         with:
-          name: dist
+          name: dist-node
           path: |
             dist/*.wasm
             dist/*.wasm.bin
@@ -63,7 +63,7 @@ jobs:
             dist/*.js
 
   publish_node:
-    needs: build_ant_test_node
+    needs: build_and_test_node
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
@@ -73,9 +73,72 @@ jobs:
           node-version: '16'
       - uses: actions/download-artifact@v2
         with:
-          name: dist
+          name: dist-node
           path: dist
       - uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
           dry-run: ${{ github.event_name != 'release' }}
+
+  build_and_test_deno:
+    needs: build_wasm
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        deno: [ 'v1.16' ]
+        include:
+          - deno: 'v1.16'
+            upload_artifact: true
+    name: Build and test Deno ${{ matrix.deno }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: wasm
+          path: dist
+      - run: make deno EM_DOCKER="false" ZBAR_WASM_DEPS=""
+      - run: make deno-test EM_DOCKER="false" ZBAR_WASM_DEPS=""
+      - uses: codecov/codecov-action@v2
+      - name: Upload artifact
+        if: ${{ matrix.upload_artifact }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-deno
+          path: |
+            dist/**/*.js
+            dist/**/*.ts
+
+  publish_deno:
+    needs: build_and_test_deno
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: webfactory/ssh-agent@v0.4.0
+        with:
+          ssh-private-key: ${{ secrets.DENO_REPO_KEY }}
+      - run: git clone git@github.com:zbar-wasm/zbar-wasm-deno.git
+      - run: |
+          cd zbar-wasm-deno
+          rm -rf dist
+          git checkout -- dist/README.md
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist-deno
+          path: zbar-wasm-deno/dist
+      - name: 'Update repo'
+        run: |
+          cd zbar-wasm-deno
+          git config user.name "zbar.wasm auto"
+          git config user.email "samsam2310@gmail.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/samsam2310/zbar.wasm"
+      - name: 'Deploy'
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          cd zbar-wasm-deno
+          git push origin main
+          git tag "${GITHUB_REF##*/}"
+          git push origin "${GITHUB_REF##*/}"

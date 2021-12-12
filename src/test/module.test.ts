@@ -2,11 +2,11 @@ import { getImageData, imageDataToGrayBuffer } from './utils';
 import { ImageScanner } from '../ImageScanner';
 import { scanImageData, scanGrayBuffer, getDefaultScanner } from '../module';
 import { ZBarSymbolType, ZBarConfigType } from '../enum';
+import { test, expect } from './utils';
 
 test('scanImageData', async () => {
-  const dir = __dirname + '/../../src/test';
   let res;
-  const img1 = await getImageData(dir + '/test1.png');
+  const img1 = await getImageData('/test1.png');
   res = await scanImageData(img1);
   expect(res).toHaveLength(1);
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_QRCODE);
@@ -30,15 +30,15 @@ test('scanImageData', async () => {
     { x: 1676, y: 313 }
   ]);
 
-  res = await scanImageData(await getImageData(dir + '/test2.png'));
+  res = await scanImageData(await getImageData('/test2.png'));
   expect(res).toHaveLength(1);
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_QRCODE);
   expect(res[0].decode()).toEqual('中文測試');
 
-  res = await scanImageData(await getImageData(dir + '/test3.png'));
+  res = await scanImageData(await getImageData('/test3.png'));
   expect(res).toHaveLength(0);
 
-  res = await scanImageData(await getImageData(dir + '/test4.png'));
+  res = await scanImageData(await getImageData('/test4.png'));
   expect(res).toHaveLength(2);
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_QRCODE);
   expect(res[0].decode()).toEqual('First');
@@ -47,9 +47,8 @@ test('scanImageData', async () => {
 });
 
 test('Barcode', async () => {
-  const dir = __dirname + '/../../src/test';
   let res;
-  const img5 = await getImageData(dir + '/test5.png');
+  const img5 = await getImageData('/test5.png');
   res = await scanImageData(img5);
   expect(res).toHaveLength(1);
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_EAN13);
