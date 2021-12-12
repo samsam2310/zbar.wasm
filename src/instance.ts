@@ -1,7 +1,7 @@
 import { loadWasmInstance } from './load';
-import ZBar from './ZBar';
+import ZBarInstance from './ZBarInstance';
 
-let inst: ZBar | null = null;
+let inst: ZBarInstance | null = null;
 
 let instPromise = (async () => {
   inst = await loadWasmInstance({});
@@ -11,6 +11,6 @@ let instPromise = (async () => {
   return inst;
 })();
 
-export const getInstance = async (): Promise<ZBar> => {
+export const getInstance = async (): Promise<ZBarInstance> => {
   return await instPromise;
 };
