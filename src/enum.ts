@@ -69,3 +69,11 @@ export enum ZBarConfigType {
   ZBAR_CFG_X_DENSITY = 0x100, /**< image scanner vertical scan density */
   ZBAR_CFG_Y_DENSITY,		/**< image scanner horizontal scan density */
 }
+
+export enum ZBarOrientation {
+  ZBAR_ORIENT_UNKNOWN = -1, /**< unable to determine orientation */
+  ZBAR_ORIENT_UP,	      /**< upright, read left to right */
+  ZBAR_ORIENT_RIGHT,	      /**< sideways, read top to bottom */
+  ZBAR_ORIENT_DOWN,	      /**< upside-down, read right to left */
+  ZBAR_ORIENT_LEFT,	      /**< sideways, read bottom to top */
+}
