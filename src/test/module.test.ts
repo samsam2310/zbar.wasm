@@ -116,15 +116,15 @@ test('orientations', async () => {
       1
     )
   ).toEqual(0);
-  res = await scanImageData(img6, scanner);
+  const res = await scanImageData(img6, scanner);
   expect(res).toHaveLength(4);
-  res.forEach(r => {
+  for (let r of res) {
     const decoded = r.decode();
     const expectedOrientation = orientations[decoded];
 
     expect(r.type).toEqual(ZBarSymbolType.ZBAR_CODE39);
     expect(expectedOrientation).toBeDefined();
     expect(r.orientation).toEqual(expectedOrientation);
-  });
+  }
   scanner.destroy();
 });
