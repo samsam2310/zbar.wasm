@@ -93,6 +93,13 @@ test('Barcode', async () => {
   expect(res[0].type).toEqual(ZBarSymbolType.ZBAR_EAN13);
   expect(res[0].decode()).toEqual('9781234567897');
 
+  scanner.destroy();
+  await expect(scanImageData(img5, scanner)).rejects.toThrow(
+    'Call after destroyed'
+  );
+});
+
+test('orientations', async () => {
   const img6 = await getImageData('/test6.png');
   const orientations: Record<string, ZBarOrientation> = {
     'UP': ZBarOrientation.ZBAR_ORIENT_UP,
@@ -118,10 +125,4 @@ test('Barcode', async () => {
     expect(expectedOrientation).toBeDefined();
     expect(r.orientation).toEqual(expectedOrientation);
   })
-
-  scanner.destroy();
-  await expect(scanImageData(img6, scanner)).rejects.toThrow(
-    'Call after destroyed'
-  );
-
 });
