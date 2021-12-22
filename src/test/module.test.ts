@@ -108,6 +108,7 @@ test('orientations', async () => {
     'RIGHT': ZBarOrientation.ZBAR_ORIENT_RIGHT
   };
 
+  const scanner = await ImageScanner.create();
   expect(
     scanner.setConfig(
       ZBarSymbolType.ZBAR_CODE39,
@@ -124,5 +125,6 @@ test('orientations', async () => {
     expect(r.type).toEqual(ZBarSymbolType.ZBAR_CODE39);
     expect(expectedOrientation).toBeDefined();
     expect(r.orientation).toEqual(expectedOrientation);
-  })
+  });
+  scanner.destroy();
 });
