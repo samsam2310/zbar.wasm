@@ -1,7 +1,7 @@
 import { getImageData, imageDataToGrayBuffer } from './utils';
 import { ImageScanner } from '../ImageScanner';
 import { scanImageData, scanGrayBuffer, getDefaultScanner } from '../module';
-import { ZBarSymbolType, ZBarConfigType } from '../enum';
+import { ZBarSymbolType, ZBarConfigType, ZBarOrientation } from '../enum';
 import { test, expect } from './utils';
 
 test('scanImageData', async () => {
@@ -97,4 +97,34 @@ test('Barcode', async () => {
   await expect(scanImageData(img5, scanner)).rejects.toThrow(
     'Call after destroyed'
   );
+});
+
+test('orientations', async () => {
+  const img6 = await getImageData('/test6.png');
+  const orientations: Record<string, ZBarOrientation> = {
+    'UP': ZBarOrientation.ZBAR_ORIENT_UP,
+    'DOWN': ZBarOrientation.ZBAR_ORIENT_DOWN,
+    'LEFT': ZBarOrientation.ZBAR_ORIENT_LEFT,
+    'RIGHT': ZBarOrientation.ZBAR_ORIENT_RIGHT
+  };
+
+  const scanner = await ImageScanner.create();
+  expect(
+    scanner.setConfig(
+      ZBarSymbolType.ZBAR_CODE39,
+      ZBarConfigType.ZBAR_CFG_ENABLE,
+      1
+    )
+  ).toEqual(0);
+  const res = await scanImageData(img6, scanner);
+  expect(res).toHaveLength(4);
+  for (let r of res) {
+    const decoded = r.decode();
+    const expectedOrientation = orientations[decoded];
+
+    expect(r.type).toEqual(ZBarSymbolType.ZBAR_CODE39);
+    expect(expectedOrientation).toBeDefined();
+    expect(r.orientation).toEqual(expectedOrientation);
+  }
+  scanner.destroy();
 });

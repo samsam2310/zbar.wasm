@@ -1,5 +1,5 @@
 import { getInstance } from './instance';
-import { ZBarSymbolType } from './enum';
+import { ZBarOrientation, ZBarSymbolType } from './enum';
 
 export interface Point {
   x: number;
@@ -48,6 +48,10 @@ class SymbolPtr extends TypePointer {
     return res;
   }
 
+  get orientation(): ZBarOrientation {
+    return this.HEAP32[this.ptr32 + 9];
+  }
+
   get next(): SymbolPtr | null {
     const ptr = this.HEAPU32[this.ptr32 + 11];
     if (!ptr) return null;
@@ -80,6 +84,7 @@ export class Symbol {
   typeName: string;
   data: Int8Array;
   points: Array<Point>;
+  orientation: ZBarOrientation;
   time: number;
   cacheCount: number;
   quality: number;
@@ -89,6 +94,7 @@ export class Symbol {
     this.typeName = ZBarSymbolType[this.type];
     this.data = ptr.data;
     this.points = ptr.points;
+    this.orientation = ptr.orientation;
     this.time = ptr.time;
     this.cacheCount = ptr.cacheCount;
     this.quality = ptr.quality;
