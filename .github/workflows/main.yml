@@ -42,7 +42,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: wasm
           path: dist
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist-node
           path: dist
@@ -95,7 +95,7 @@ jobs:
       - uses: denoland/setup-deno@v1
         with:
           deno-version: ${{ matrix.deno }}
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: wasm
           path: dist
@@ -125,7 +125,7 @@ jobs:
           cd zbar-wasm-deno
           rm -rf dist
           git checkout -- dist/README.md
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: dist-deno
           path: zbar-wasm-deno/dist
